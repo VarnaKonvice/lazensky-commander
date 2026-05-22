@@ -1,4 +1,4 @@
-const CACHE_NAME = 'komander-v5-safe';
+const CACHE_NAME = 'komander-v7-two-next';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-1024.png', './lazensky-import-28dni.json'];
 self.addEventListener('install', event => {
   self.skipWaiting();
