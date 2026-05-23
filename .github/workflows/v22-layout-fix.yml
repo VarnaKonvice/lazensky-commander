@@ -1,0 +1,27 @@
+name: v22 layout fix
+on:
+  push:
+    branches: [ main ]
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          perl -0pi -e "s/\.stats\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)!important;gap:5px!important;margin-top:16px!important\}/.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;margin-top:16px!important}/g" index.html
+          perl -0pi -e "s/\.stat\{padding:7px!important;min-width:0!important;overflow:hidden!important\}/.stat{padding:10px!important;min-width:0!important;overflow:hidden!important}/g" index.html
+          perl -0pi -e "s/\.stat span\{font-size:12px!important;line-height:1!important;white-space:nowrap!important\}/.stat span{font-size:14px!important;line-height:1.05!important;white-space:nowrap!important}/g" index.html
+          perl -0pi -e "s/\.stat b\{font-size:clamp\(22px,6\.4vw,27px\)!important;line-height:1!important;letter-spacing:-\.08em!important;white-space:nowrap!important\}/.stat b{font-size:clamp(22px,8vw,34px)!important;line-height:1!important;letter-spacing:-.06em!important;white-space:nowrap!important}/g" index.html
+          perl -0pi -e "s/\.now\{min-height:[0-9]+px\}/.now{min-height:310px}/g" index.html
+          perl -0pi -e "s/\.now \.ringbox\{position:absolute;right:18px;bottom:[0-9]+px\}/.now .ringbox{position:absolute;right:18px;bottom:24px}/g" index.html
+          perl -0pi -e "s/\.place\{font-size:23px;color:#e2e8f0;margin-top:[0-9]+px\}/.place{font-size:23px;color:#e2e8f0;margin-top:30px}/g" index.html
+          perl -0pi -e "s/var VERSION='v[0-9][^']*'/var VERSION='v22-layout-fit'/g" index.html
+      - run: |
+          if git diff --quiet index.html; then exit 0; fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html
+          git commit -m "fix layout fitting"
+          git push
