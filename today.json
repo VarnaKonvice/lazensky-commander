@@ -1,14 +1,53 @@
 {
-  "schemaVersion": 1,
-  "source": "lazensky-commander-today",
-  "generatedAt": "2026-05-23T14:05:00+02:00",
-  "date": "2026-05-23",
+  "schemaVersion": 3,
+  "source": "lazensky-commander-today-auto-alarms",
+  "generatedAt": "2026-05-23T21:30:00+02:00",
+  "date": "2026-05-24",
   "timezone": "Europe/Prague",
-  "prefix": "LK:",
+  "prefix": "LKA:",
   "items": [
     {
-      "id": "lk-2026-05-23-05",
-      "date": "2026-05-23",
+      "id": "lk-2026-05-24-00",
+      "date": "2026-05-24",
+      "type": "meal",
+      "title": "Snídaně",
+      "place": "Jídelna",
+      "start": "07:00",
+      "end": "07:45",
+      "leaveTime": "06:45",
+      "alarmTime": "06:40",
+      "alarmDateTime": "2026-05-24T06:40:00",
+      "label": "LKA: Snídaně – Jídelna"
+    },
+    {
+      "id": "lk-2026-05-24-test-procedure",
+      "date": "2026-05-24",
+      "type": "procedure",
+      "title": "Test procedura",
+      "place": "Testovací místnost",
+      "start": "09:30",
+      "end": "09:50",
+      "leaveTime": "09:15",
+      "alarmTime": "09:10",
+      "alarmDateTime": "2026-05-24T09:10:00",
+      "label": "LKA: Test procedura – Testovací místnost"
+    },
+    {
+      "id": "lk-2026-05-24-01",
+      "date": "2026-05-24",
+      "type": "meal",
+      "title": "Oběd",
+      "place": "Jídelna",
+      "start": "11:00",
+      "end": "11:45",
+      "leaveTime": "10:45",
+      "alarmTime": "10:40",
+      "alarmDateTime": "2026-05-24T10:40:00",
+      "label": "LKA: Oběd – Jídelna"
+    },
+    {
+      "id": "lk-2026-05-24-02",
+      "date": "2026-05-24",
       "type": "meal",
       "title": "Večeře",
       "place": "Jídelna",
@@ -16,8 +55,9 @@
       "end": "17:45",
       "leaveTime": "16:45",
       "alarmTime": "16:40",
-      "alarmDateTime": "2026-05-23T16:40:00",
-      "label": "LK: Večeře – Jídelna"
+      "alarmDateTime": "2026-05-24T16:40:00",
+      "label": "LKA: Večeře – Jídelna"
     }
-  ]
+  ],
+  "note": "Dynamic Clock alarms for tomorrow's meals and procedure test. Cleanup should target only LKA: alarms."
 }
