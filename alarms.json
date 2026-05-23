@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "source": "lazensky-commander",
-  "generatedAt": "2026-05-23T12:45:00+02:00",
+  "generatedAt": "2026-05-23T20:20:00+02:00",
   "mode": "test",
   "timezone": "Europe/Prague",
   "prefix": "LK:",
@@ -121,6 +121,19 @@
         "alarmTime": "06:40",
         "alarmDateTime": "2026-05-24T06:40:00",
         "label": "LK: Snídaně – Jídelna"
+      },
+      {
+        "id": "lk-2026-05-24-test-procedure",
+        "date": "2026-05-24",
+        "type": "procedure",
+        "title": "Test procedura",
+        "place": "Testovací místnost",
+        "start": "09:30",
+        "end": "09:50",
+        "leaveTime": "09:15",
+        "alarmTime": "09:10",
+        "alarmDateTime": "2026-05-24T09:10:00",
+        "label": "LK: Test procedura – Testovací místnost"
       },
       {
         "id": "lk-2026-05-24-01",
