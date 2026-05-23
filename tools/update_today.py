@@ -5,9 +5,9 @@ The iPhone shortcut stays simple: it downloads today.json, reads items,
 and creates system alarms. Date selection happens here, not on the iPhone.
 
 Operational rule:
-- stable meal alarms are handled as fixed repeating Clock alarms outside this file,
-- today.json contains only changing procedure alarms,
-- generated procedure alarm labels use the LKP: prefix so cleanup can target only these alarms.
+- meals and procedures are both generated dynamically,
+- generated alarm labels use the LKA: prefix,
+- cleanup targets only LKA: alarms, never personal alarms.
 """
 
 from __future__ import annotations
@@ -21,19 +21,19 @@ ROOT = Path(__file__).resolve().parents[1]
 ALARMS_PATH = ROOT / "alarms.json"
 TODAY_PATH = ROOT / "today.json"
 TZ = ZoneInfo("Europe/Prague")
-PROCEDURE_PREFIX = "LKP:"
+AUTO_PREFIX = "LKA:"
 
 
 def item_sort_key(item: dict) -> str:
     return str(item.get("alarmTime") or item.get("start") or "99:99")
 
 
-def procedure_item(item: dict) -> dict:
-    """Return a shortcut-safe procedure item with an LKP: cleanup prefix."""
+def shortcut_item(item: dict) -> dict:
+    """Return a shortcut-safe item with an LKA: cleanup prefix."""
     cloned = dict(item)
-    title = str(cloned.get("title") or "Procedura")
+    title = str(cloned.get("title") or "Událost")
     place = str(cloned.get("place") or "")
-    cloned["label"] = f"{PROCEDURE_PREFIX} {title}" + (f" – {place}" if place else "")
+    cloned["label"] = f"{AUTO_PREFIX} {title}" + (f" – {place}" if place else "")
     return cloned
 
 
@@ -49,23 +49,23 @@ def main() -> None:
     else:
         items = [item for item in source.get("items", []) if item.get("date") == today]
 
-    # Meals have stable repeating alarms. Today shortcut creates only changing procedures.
-    items = [item for item in items if item.get("type") == "procedure"]
+    # Keep meals and procedures. This supports changing meal shifts without manual alarm edits.
+    items = [item for item in items if item.get("type") in {"meal", "procedure"}]
 
     # If the file is regenerated later during the day, keep only alarms that have not passed yet.
     items = [item for item in items if str(item.get("alarmTime", "99:99")) >= current_time]
-    items = [procedure_item(item) for item in items]
+    items = [shortcut_item(item) for item in items]
     items.sort(key=item_sort_key)
 
     output = {
-        "schemaVersion": 2,
-        "source": "lazensky-commander-today-procedures",
+        "schemaVersion": 3,
+        "source": "lazensky-commander-today-auto-alarms",
         "generatedAt": now.isoformat(timespec="seconds"),
         "date": today,
         "timezone": "Europe/Prague",
-        "prefix": PROCEDURE_PREFIX,
+        "prefix": AUTO_PREFIX,
         "items": items,
-        "note": "Only changing procedure alarms are generated. Stable meal alarms should be fixed repeating alarms.",
+        "note": "Dynamic Clock alarms for today's meals and procedures. Cleanup should target only LKA: alarms.",
     }
 
     TODAY_PATH.write_text(
