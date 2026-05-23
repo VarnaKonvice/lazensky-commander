@@ -1,0 +1,39 @@
+name: Patch summary cards stronger v21
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add strong summary card override
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          override = ".stats{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}.stat{padding:7px!important;min-width:0!important;overflow:hidden!important}.stat span{font-size:12px!important;line-height:1!important;white-space:nowrap!important}.stat b{font-size:clamp(22px,6.4vw,27px)!important;line-height:1!important;letter-spacing:-.08em!important;white-space:nowrap!important}.stat *{max-width:100%!important;min-width:0!important}"
+          if override not in s:
+              s = s.replace('\n</style>', override + '\n</style>')
+          for old in ["var VERSION='v20-summary-card-fix'", "var VERSION='v19-current-card-taller'", "var VERSION='v18-current-card-spacing'", "var VERSION='v17-ring-polish'"]:
+              s = s.replace(old, "var VERSION='v21-summary-stat-compact'")
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit patch
+        run: |
+          if git diff --quiet index.html; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "make summary stats compact consistently"
+          git push
