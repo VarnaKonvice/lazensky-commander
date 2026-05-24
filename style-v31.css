@@ -1,4 +1,4 @@
-/* v31: keep nav hidden on open and restore white meal/place symbols in current card */
+/* v31: restore white meal/place symbols in current card and keep nav testable */
 .now2 .detail .mealIcon,
 .now2 .detail .placeIcon{
   display:inline!important;
@@ -16,8 +16,13 @@
 .procNow .detail small{
   color:#fff;
 }
-body.nav-hidden nav{
-  transform:translateY(112%);
-  opacity:.02;
-  pointer-events:none;
+body.nav-hidden nav,
+nav{
+  transform:none!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  visibility:visible!important;
+}
+.app{
+  padding-bottom:132px!important;
 }
