@@ -22,7 +22,9 @@ nav{
   opacity:1!important;
   pointer-events:auto!important;
   visibility:visible!important;
+  bottom:88px!important;
+  z-index:9999!important;
 }
 .app{
-  padding-bottom:132px!important;
+  padding-bottom:220px!important;
 }
